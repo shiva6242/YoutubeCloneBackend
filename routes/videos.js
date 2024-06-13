@@ -85,17 +85,17 @@ router.post('/', upload.fields([{ name: 'video' }, { name: 'img' }]), async (req
   res.status(500).json({ message: 'Internal Server Error' });
 }
   });
-router.put("/:id", verifyToken,(req,res)=>{
+router.put("/:id",(req,res)=>{
 
 })
-router.delete("/:id", verifyToken, (req,res)=>{
+router.delete("/:id", (req,res)=>{
 
 })
 router.get("/find/:id", getVideo)
 router.put("/view/:id", addView)
 router.get("/trend", trend)
 router.get("/random", random)
-router.get("/sub",verifyToken, sub)
+router.get("/sub", sub)
 router.get("/tags", getByTag)
 router.get("/search", search)
 
