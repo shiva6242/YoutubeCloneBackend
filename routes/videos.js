@@ -24,7 +24,10 @@ const storage = multer.diskStorage({
   
 
 const convertVideo = (inputPath, outputPath, size) => {
+  console.log("vedio converting")
     return new Promise((resolve, reject) => {
+      console.log("vedio converting111")
+
       ffmpeg(inputPath)
         .outputOptions([`-vf scale=${size}`])
         .output(outputPath)
@@ -35,6 +38,7 @@ const convertVideo = (inputPath, outputPath, size) => {
 };
 //create a video
 router.post('/', upload.fields([{ name: 'video' }, { name: 'img' }]), async (req, res) => {
+  console.log("video came");
   try {
     const userId=req.body.Id
   
@@ -60,7 +64,7 @@ router.post('/', upload.fields([{ name: 'video' }, { name: 'img' }]), async (req
   for (const q of qualities) {
     const outputPath = `uploads/${Date.now()}-${q.quality}.mp4`;
     videoPaths.push({ quality: q.quality, url: `/${outputPath}` });
-
+    console.log("video name changed")
     try {
       await convertVideo(videoFile.path, outputPath, q.size);
     } catch (error) {
@@ -79,23 +83,24 @@ router.post('/', upload.fields([{ name: 'video' }, { name: 'img' }]), async (req
     imgUrl: `/${imgFile.path}`,
     videoUrl: videoPaths,
   });
+  console.log("vedio going to save")
   await video.save();
   res.json(video);
 } catch (error) {
   res.status(500).json({ message: 'Internal Server Error' });
 }
   });
-router.put("/:id",(req,res)=>{
+router.put("/:id", verifyToken,(req,res)=>{
 
 })
-router.delete("/:id", (req,res)=>{
+router.delete("/:id", verifyToken, (req,res)=>{
 
 })
 router.get("/find/:id", getVideo)
 router.put("/view/:id", addView)
 router.get("/trend", trend)
 router.get("/random", random)
-router.get("/sub", sub)
+router.get("/sub",verifyToken, sub)
 router.get("/tags", getByTag)
 router.get("/search", search)
 
