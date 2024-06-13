@@ -4,7 +4,7 @@ const { verifyToken }=require('../verifyToken.js');
 const router = express.Router();
 
 router.post("/", addComment)
-router.delete("/:id", verifyToken, deleteComment)
+router.delete("/:id", deleteComment)
 router.get("/:videoId", getComments)
 
 module.exports= router;
