@@ -27,7 +27,7 @@ const connect = () => {
 };
 
 // Middleware
-const allowedOrigins = ['https://papaya-baklava-8b0fd2.netlify.app'];
+const allowedOrigins = ['https://666aa9eac5630fb340c26f98--papaya-baklava-8b0fd2.netlify.app'];
 
 app.use(cors());
 
