@@ -27,7 +27,22 @@ const connect = () => {
 };
 
 // Middleware
-app.use(cors());
+const allowedOrigins = ['https://papaya-baklava-8b0fd2.netlify.app'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  methods: ['GET', 'POST','PUT'],
+  allowedHeaders: ['Content-Type'],
+  credentials: true,
+}));
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser());
 app.use(express.json());
@@ -50,7 +65,7 @@ app.use((err, req, res, next) => {
 // Socket.io setup
 const io = socketIo(server, {
   cors: {
-    origin: 'https://papaya-baklava-8b0fd2.netlify.app',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
     credentials: true,
