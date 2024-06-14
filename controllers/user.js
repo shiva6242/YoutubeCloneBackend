@@ -48,7 +48,7 @@ const User = require('../models/User.js')
 
  const subscribe = async (req, res, next) => {
   try {
-    await User.findByIdAndUpdate(req.user.id, {
+    await User.findByIdAndUpdate(req.body.currentUser._id, {
       $push: { subscribedUsers: req.params.id },
     });
     await User.findByIdAndUpdate(req.params.id, {
@@ -63,7 +63,7 @@ const User = require('../models/User.js')
  const unsubscribe = async (req, res, next) => {
   try {
     try {
-      await User.findByIdAndUpdate(req.user.id, {
+      await User.findByIdAndUpdate(req.body.currentUser._id, {
         $pull: { subscribedUsers: req.params.id },
       });
       await User.findByIdAndUpdate(req.params.id, {
@@ -79,8 +79,10 @@ const User = require('../models/User.js')
 };
 
  const like = async (req, res, next) => {
-  const id = req.user.id;
+  const id = req.body.currentUser._id;
   const videoId = req.params.videoId;
+  console.log(id,videoId);
+
   try {
     await Video.findByIdAndUpdate(videoId,{
       $addToSet:{likes:id},
@@ -93,7 +95,7 @@ const User = require('../models/User.js')
 };
 
  const dislike = async (req, res, next) => {
-    const id = req.user.id;
+  const id = req.body.currentUser._id;
     const videoId = req.params.videoId;
     try {
       await Video.findByIdAndUpdate(videoId,{
