@@ -81,7 +81,6 @@ const User = require('../models/User.js')
  const like = async (req, res, next) => {
   const id = req.body.currentUser._id;
   const videoId = req.params.videoId;
-  console.log(id,videoId);
 
   try {
     await Video.findByIdAndUpdate(videoId,{
