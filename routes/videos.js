@@ -9,7 +9,7 @@ const Video=require('../models/Video.js')
 const router = express.Router();
 
 
-ffmpeg.setFfmpegPath('C:\\Users\\ROCKSTAR RAVITEJA\\OneDrive\\Desktop\\ffmpeg-7.0-essentials_build\\bin\\ffmpeg.exe');
+ffmpeg.setFfmpegPath('/usr/bin/ffmpeg.exe');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
